@@ -2052,8 +2052,7 @@
             "required": false,
             "description": "Facebook Ad Library ad ID. Ad ids rotate as campaigns end, so take a current one from `/v1/facebook/adlibrary/company/ads` rather than reusing an old one. Provide at least one of: `id`, `url`.",
             "schema": {
-              "type": "string",
-              "example": "1702938977100376"
+              "type": "string"
             }
           },
           {
@@ -2062,8 +2061,7 @@
             "required": false,
             "description": "Facebook Ad Library URL for the ad. A page URL is rejected with a 400. Provide at least one of: `id`, `url`.",
             "schema": {
-              "type": "string",
-              "example": "https://www.facebook.com/ads/library?id=1702938977100376"
+              "type": "string"
             }
           }
         ],
@@ -6028,7 +6026,7 @@
             "description": "Instagram username without the @ symbol. Provide at least one of: `handle`, `user_id`.",
             "schema": {
               "type": "string",
-              "example": "instagram"
+              "example": "natgeo"
             }
           },
           {
@@ -6098,8 +6096,7 @@
             "required": true,
             "description": "Instagram numeric user ID of the story's author.",
             "schema": {
-              "type": "string",
-              "example": "25025320"
+              "type": "string"
             }
           },
           {
@@ -6108,8 +6105,7 @@
             "required": true,
             "description": "ID of the individual story to download.",
             "schema": {
-              "type": "string",
-              "example": "3926693776893966474"
+              "type": "string"
             }
           },
           {
@@ -9423,7 +9419,7 @@
             "description": "Full URL of the LinkedIn profile, company, or post.",
             "schema": {
               "type": "string",
-              "example": "https://www.linkedin.com/in/williamhgates/"
+              "example": "https://www.linkedin.com/in/satyanadella/"
             }
           },
           {
@@ -21560,7 +21556,7 @@
             "description": "YouTube channel handle (with or without @). Provide at least one of: `channelId`, `handle`.",
             "schema": {
               "type": "string",
-              "example": "MrBeast"
+              "example": "mkbhd"
             }
           },
           {
