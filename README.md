@@ -8,6 +8,12 @@ Threads, YouTube, Reddit and Pinterest, behind one `x-api-key` header and one cr
 - **Live copy:** `https://api.insightsocial.app/v1/openapi.json` (free, no key)
 - **Kept in sync:** a GitHub Action fetches the live spec every day and commits it when it
   changes, so this repo's history doubles as a changelog of the API surface.
+- **Schema 2:** the spec describes schema 2 (`info.version` `2.0.0`), the response shape every
+  key gets since 2026-10-04: one typed shape per entity (post, profile, comment, transcript)
+  on every platform. See [Schema 2](https://www.insightsocial.app/docs/schema-2).
+- **Legacy spec:** the previous document (`1.0.0`) is at
+  `https://api.insightsocial.app/v1/openapi-legacy.json` until 2026-11-03, when the
+  `InsightSocial-Version: legacy` header stops working. Do not generate new clients from it.
 
 ## Use it
 
@@ -21,7 +27,7 @@ npx @openapitools/openapi-generator-cli generate \
 
 Import it into Postman, Insomnia or Bruno with the same URL.
 
-Every call needs your key in the `x-api-key` header (`Authorization: Bearer` is refused).
+Every call needs your key in the `x-api-key` header (`Authorization: Bearer` is not read).
 Create one in the [portal](https://www.insightsocial.app/portal/api).
 
 ## What the spec tells you
