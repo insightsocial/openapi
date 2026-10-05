@@ -1114,7 +1114,7 @@
       "get": {
         "operationId": "facebook_adlibrary_company_ads",
         "summary": "Adlibrary › Company › Ads",
-        "description": "Returns the ads one company or page is running in the Facebook Ad Library, each with its creative, status, spend, and targeting info.\n\nUse it when you know the advertiser by pageId or company name; to find ads by keyword across advertisers, use adlibrary/search/ads.\n\n**100 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
+        "description": "Returns the ads one company or page is running in the Facebook Ad Library, each with its creative, status, spend, and targeting info.\n\nUse it when you know the advertiser by pageId or company name; to find ads by keyword across advertisers, use adlibrary/search/ads.\n\n**Metered: 100–700 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
         "tags": [
           "facebook"
         ],
@@ -1237,6 +1237,18 @@
             }
           },
           {
+            "name": "include",
+            "in": "query",
+            "required": false,
+            "description": "Set to `audience` (one token only) to fill, on every ad that ran in the EU, `post.ext.ad.eu_total_reach`, `post.ext.ad.eu_reach_breakdown` (reach per EU country by age band and gender), `post.ext.ad.targets_eu`, `target_ages`, `target_gender` and `target_locations`. Without it the call is unchanged.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "audience"
+              ]
+            }
+          },
+          {
             "name": "dry_run",
             "in": "query",
             "required": false,
@@ -1249,7 +1261,10 @@
             }
           }
         ],
-        "x-credits": 100,
+        "x-credits": {
+          "min": 100,
+          "max": 700
+        },
         "x-group": "Adlibrary",
         "responses": {
           "200": {
@@ -4533,7 +4548,7 @@
             "name": "id",
             "in": "query",
             "required": true,
-            "description": "Instagram highlight ID: the numeric id, with or without the `highlight:` prefix. Get it from `/v1/instagram/user/highlights`.",
+            "description": "Instagram highlight ID: the numeric id, with or without the `highlight:` prefix. Get it from `/v1/instagram/highlights`.",
             "schema": {
               "type": "string",
               "example": "18067016518767507"
@@ -4988,96 +5003,11 @@
         "x-stability": "beta"
       }
     },
-    "/v1/instagram/user/embed": {
-      "get": {
-        "operationId": "instagram_user_embed",
-        "summary": "User › Embed",
-        "description": "Returns an embeddable HTML snippet for an Instagram profile, meant to be dropped into a page on your own site.\n\nUse it when you want to display a profile on a web page; use profile instead when you need the follower numbers and bio as data.\n\n**20 credits** per call.",
-        "tags": [
-          "instagram"
-        ],
-        "parameters": [
-          {
-            "name": "handle",
-            "in": "query",
-            "required": true,
-            "description": "Instagram username without the @ symbol",
-            "schema": {
-              "type": "string",
-              "example": "instagram"
-            }
-          },
-          {
-            "name": "dry_run",
-            "in": "query",
-            "required": false,
-            "description": "Set to 1 to get the price of this call without making it: data.dry_run carries credits_min and credits_max. Nothing is charged.",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "1"
-              ]
-            }
-          }
-        ],
-        "x-credits": 20,
-        "x-group": "User",
-        "responses": {
-          "200": {
-            "description": "Success.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/Envelope2"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "data": {
-                          "$ref": "#/components/schemas/ProfileOne"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/Error"
-          },
-          "401": {
-            "$ref": "#/components/responses/Error"
-          },
-          "402": {
-            "$ref": "#/components/responses/Error"
-          },
-          "404": {
-            "$ref": "#/components/responses/Error"
-          },
-          "409": {
-            "$ref": "#/components/responses/Error"
-          },
-          "429": {
-            "$ref": "#/components/responses/Error"
-          },
-          "500": {
-            "$ref": "#/components/responses/Error"
-          },
-          "503": {
-            "$ref": "#/components/responses/Error"
-          }
-        },
-        "x-stability": "stable"
-      }
-    },
     "/v1/instagram/audio/reels": {
       "get": {
         "operationId": "instagram_audio_reels",
         "summary": "Audio › Reels",
-        "description": "Returns reels that use one specific audio track, each with its engagement counts and the account that posted it.\n\nUse it after search/music or music/trending: pass the audio_id to see who is posting with that sound.\n\n**20 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
+        "description": "Returns reels that use one specific audio track, each with its engagement counts and the account that posted it.\n\nUse it after search/music: pass the audio_id to see who is posting with that sound.\n\n**20 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
         "tags": [
           "instagram"
         ],
@@ -6865,7 +6795,7 @@
       "get": {
         "operationId": "instagram_search_music",
         "summary": "Search › Music",
-        "description": "Returns audio tracks matching a keyword, each with artist, title, audio and cover artwork URLs, duration, and usage details.\n\nUse it to find a specific sound by name; music/trending is the choice when you want whatever is popular right now.\n\n**100 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
+        "description": "Returns audio tracks matching a keyword, each with artist, title, audio and cover artwork URLs, duration, and usage details.\n\nUse it to find a specific sound by name.\n\n**100 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
         "tags": [
           "instagram"
         ],
@@ -7109,81 +7039,6 @@
         ],
         "x-credits": 100,
         "x-group": "Story",
-        "responses": {
-          "200": {
-            "description": "Success.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/Envelope2"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "data": {
-                          "$ref": "#/components/schemas/ConventionsData"
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          },
-          "400": {
-            "$ref": "#/components/responses/Error"
-          },
-          "401": {
-            "$ref": "#/components/responses/Error"
-          },
-          "402": {
-            "$ref": "#/components/responses/Error"
-          },
-          "404": {
-            "$ref": "#/components/responses/Error"
-          },
-          "409": {
-            "$ref": "#/components/responses/Error"
-          },
-          "429": {
-            "$ref": "#/components/responses/Error"
-          },
-          "500": {
-            "$ref": "#/components/responses/Error"
-          },
-          "503": {
-            "$ref": "#/components/responses/Error"
-          }
-        },
-        "x-stability": "beta"
-      }
-    },
-    "/v1/instagram/music/trending": {
-      "get": {
-        "operationId": "instagram_music_trending",
-        "summary": "Music › Trending",
-        "description": "Returns a chart of licensed tracks trending on Instagram, each with title, artist, audio and cover artwork URLs, and usage details.\n\nUse it to spot sounds worth posting with. It takes no region: the chart follows the viewing account's market.\n\n**100 credits** per call.",
-        "tags": [
-          "instagram"
-        ],
-        "parameters": [
-          {
-            "name": "dry_run",
-            "in": "query",
-            "required": false,
-            "description": "Set to 1 to get the price of this call without making it: data.dry_run carries credits_min and credits_max. Nothing is charged.",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "1"
-              ]
-            }
-          }
-        ],
-        "x-credits": 100,
-        "x-group": "Music",
         "responses": {
           "200": {
             "description": "Success.",
@@ -10518,7 +10373,7 @@
             "name": "limit",
             "in": "query",
             "required": false,
-            "description": "How many posts to return in the one call, 1 to 100. Defaults to the platform's 20.",
+            "description": "How many posts to return in the one call, 1 to 100. Defaults to the platform's 20. 100 is the platform's hard ceiling. Ask for the depth you need up front - there is no second page to fetch.",
             "schema": {
               "type": "integer",
               "minimum": 1,
@@ -18231,7 +18086,7 @@
             "required": false,
             "description": "Cursor to get more comments. Get 'cursor' from previous response.",
             "schema": {
-              "type": "integer"
+              "type": "string"
             }
           },
           {
@@ -20117,7 +19972,7 @@
             "name": "url",
             "in": "query",
             "required": true,
-            "description": "Full URL of the TikTok video",
+            "description": "Full URL of the TikTok video or photo post (a `/video/` or `/photo/` link)",
             "schema": {
               "type": "string",
               "example": "https://www.tiktok.com/@stoolpresidente/video/7499229683859426602"
@@ -20711,7 +20566,7 @@
                       "type": "object",
                       "properties": {
                         "data": {
-                          "$ref": "#/components/schemas/ProfileOne"
+                          "$ref": "#/components/schemas/ConventionsData"
                         }
                       }
                     }
@@ -20745,7 +20600,7 @@
             "$ref": "#/components/responses/Error"
           }
         },
-        "x-stability": "stable"
+        "x-stability": "beta"
       }
     },
     "/v1/tiktok/adlibrary/search": {
