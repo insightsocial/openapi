@@ -500,7 +500,7 @@
       "get": {
         "operationId": "facebook_group_posts",
         "summary": "Group › Posts",
-        "description": "Returns posts from a Facebook group, 3 to 4 per page, each with the post text, reaction count, comment count, the per-reaction breakdown, and author info.\n\nUse it for group content, since profile/posts covers pages only. Send next_cursor back as cursor for older posts. Share counts are not on this surface; read one with post.\n\n**10 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
+        "description": "Returns posts from a Facebook group, 3 to 4 per page, each with the post text, reaction count, comment count, the per-reaction breakdown, and author info.\n\nUse it for group content, since profile/posts covers pages only. Facebook serves a group 3 to 4 posts per page, so a long history is many pages. Each page is billed as one call: quote a long walk with dry_run first. Send next_cursor back as cursor for older posts; each post's url works as the input to post and post/comments. Share counts are not on this surface; read one with post.\n\n**10 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
         "tags": [
           "facebook"
         ],
