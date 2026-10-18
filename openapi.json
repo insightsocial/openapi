@@ -1861,7 +1861,7 @@
             "name": "feedback_id",
             "in": "query",
             "required": false,
-            "description": "Using feedback_id (instead of url) will *really* speed up the request. You can get the feedback_id when you make a request to /v1/facebook/post. Provide at least one of: `url`, `feedback_id`.",
+            "description": "The post's `feedback_id`, from /v1/facebook/post. Faster than `url`. Provide at least one of: `url`, `feedback_id`.",
             "schema": {
               "type": "string"
             }
@@ -2556,7 +2556,7 @@
             "name": "trim",
             "in": "query",
             "required": false,
-            "description": "Set to true for a trimmed down version of the response",
+            "description": "Set to true for a lighter record with fewer fields.",
             "schema": {
               "type": "boolean"
             }
@@ -2682,7 +2682,7 @@
             "name": "media_type",
             "in": "query",
             "required": false,
-            "description": "Media type of the ad. Defaults to ALL. Meme refers to ads with image and text. Not sure why they call it meme.",
+            "description": "Media type of the ad: ALL (default), IMAGE, VIDEO, MEME (an image with text on it), IMAGE_AND_MEME or NONE.",
             "schema": {
               "type": "string",
               "enum": [
@@ -2748,7 +2748,7 @@
             "name": "trim",
             "in": "query",
             "required": false,
-            "description": "Set to true for a trimmed down version of the response",
+            "description": "Set to true for a lighter record with fewer fields.",
             "schema": {
               "type": "boolean"
             }
@@ -2937,7 +2937,7 @@
             "name": "media_type",
             "in": "query",
             "required": false,
-            "description": "Media type of the ad. Defaults to ALL. Meme just means the ad has text and an image. No clue why they call it meme.",
+            "description": "Media type of the ad: ALL (default), IMAGE, VIDEO, MEME (an image with text on it), IMAGE_AND_MEME or NONE.",
             "schema": {
               "type": "string",
               "enum": [
@@ -2981,7 +2981,7 @@
             "name": "trim",
             "in": "query",
             "required": false,
-            "description": "Set to true for a trimmed down version of the response",
+            "description": "Set to true for a lighter record with fewer fields.",
             "schema": {
               "type": "boolean"
             }
@@ -4329,7 +4329,7 @@
       "get": {
         "operationId": "facebook_profile_reels_full",
         "summary": "Profile › Reels › Full",
-        "description": "Returns a page's reels with exact per-reel engagement merged in: views, likes, comments, and shares, plus each reel's id, thumbnail, and link.\n\nUse it instead of profile/reels when the numbers matter, since that list carries only a rounded view count and no likes or comments.\n\n**Metered: 50–250 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
+        "description": "Returns a page's reels with exact per-reel views, likes, comments, and shares, plus each reel's id, thumbnail, and link.\n\nUse it instead of profile/reels when the numbers matter, since that list carries only a rounded view count and no likes or comments.\n\n**Metered: 50–250 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
         "tags": [
           "facebook"
         ],
@@ -5310,7 +5310,7 @@
             "name": "trim",
             "in": "query",
             "required": false,
-            "description": "Set to true to request the lighter record. That record is the narrow width described above, so the page is normally served from the second source with every field. A trimmed page served as it is omits `post.ext.coauthors` and leaves `post.flags.pinned` null. The price is the same either way.",
+            "description": "Set to true to request a lighter record. A trimmed page can omit `post.ext.coauthors` and leave `post.flags.pinned` null. The price is the same either way.",
             "schema": {
               "type": "boolean"
             }
@@ -5457,7 +5457,7 @@
             "name": "region",
             "in": "query",
             "required": false,
-            "description": "2 letter country code to set the proxy in",
+            "description": "Two-letter country code, such as US or GB, to read the post as seen from that country.",
             "schema": {
               "type": "string"
             }
@@ -6010,7 +6010,7 @@
             "name": "include",
             "in": "query",
             "required": false,
-            "description": "`stats` returns the full stat line on every reel: `engagement.shares`, `engagement.saves` and `post.ext.repost_count` beside views, likes, comments, the remix counter, `post.ext.music_id` for original sounds and licensed music alike, and `post.ext.audio_cluster_id`, Instagram's audio cluster for the reel. It is served by a second source, so a cursor from a request without it cannot continue a walk with it; start from page 1. Both tokens can be combined (`include=audio,stats`).",
+            "description": "`stats` returns the full stat line on every reel: `engagement.shares`, `engagement.saves` and `post.ext.repost_count` beside views, likes, comments, the remix counter, `post.ext.music_id` for original sounds and licensed music alike, and `post.ext.audio_cluster_id`, Instagram's audio cluster for the reel. It comes from a separate lookup, so a cursor from a request without it cannot continue a walk with it; start from page 1. Both tokens can be combined (`include=audio,stats`).",
             "schema": {
               "type": "string"
             }
@@ -7263,7 +7263,7 @@
             "name": "coverage",
             "in": "query",
             "required": false,
-            "description": "Send `full` to walk a merged list: accounts are added from several reads of the list and no account appears twice inside a page, until the rows reach the profile's count in `data.total`. On the pages one source covered on its own a handful of accounts can repeat across consecutive pages; wherever that source cannot cover the list the merged walk runs instead, and it never returns an account it has already given you. Requires `handle`. A page usually takes about 8 seconds and can take up to about 45, and a `503` is retried with the same cursor. A cursor from this mode only continues this mode.",
+            "description": "Send `full` to walk a merged list: accounts are added from several reads of the list and no account appears twice inside a page, until the rows reach the profile's count in `data.total`. A handful of accounts can still repeat across consecutive pages, so dedupe on the account id when you combine pages. Requires `handle`. A page usually takes about 8 seconds and can take up to about 45, and a `503` is retried with the same cursor. A cursor from this mode only continues this mode.",
             "schema": {
               "type": "string",
               "enum": [
@@ -7381,7 +7381,7 @@
             "name": "coverage",
             "in": "query",
             "required": false,
-            "description": "Send `full` to walk a merged list: accounts are added from several reads of the list and no account appears twice inside a page, until the rows reach the profile's count in `data.total`. On the pages one source covered on its own a handful of accounts can repeat across consecutive pages; wherever that source cannot cover the list the merged walk runs instead, and it never returns an account it has already given you. Requires `handle`. A page usually takes about 8 seconds and can take up to about 45, and a `503` is retried with the same cursor. A cursor from this mode only continues this mode.",
+            "description": "Send `full` to walk a merged list: accounts are added from several reads of the list and no account appears twice inside a page, until the rows reach the profile's count in `data.total`. A handful of accounts can still repeat across consecutive pages, so dedupe on the account id when you combine pages. Requires `handle`. A page usually takes about 8 seconds and can take up to about 45, and a `503` is retried with the same cursor. A cursor from this mode only continues this mode.",
             "schema": {
               "type": "string",
               "enum": [
@@ -7704,7 +7704,7 @@
             "name": "include",
             "in": "query",
             "required": false,
-            "description": "Set to `saves` (one token only) to ask a third source for a reel's save count (`post.engagement.saves`) and repost count (`post.ext.repost_count`) when the plain call returned without them. Photos and carousels are never looked up, because Instagram publishes no save count on them.",
+            "description": "Set to `saves` (one token only) to look up a reel's save count (`post.engagement.saves`) and repost count (`post.ext.repost_count`) when the plain call returned without them. Photos and carousels are never looked up, because Instagram publishes no save count on them.",
             "schema": {
               "type": "string",
               "enum": [
@@ -9066,7 +9066,7 @@
       "get": {
         "operationId": "instagram_profile_reels_full",
         "summary": "Profile › Reels › Full",
-        "description": "Returns a user's reels with views, likes, comments, and a per-reel share count where the second source exposes one, plus a coverage figure.\n\nUse it when share counts matter across a creator's reels; profile/reels is the lighter choice when views, likes, and comments are enough.\n\n**Metered: 50–250 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
+        "description": "Returns a user's reels with views, likes, comments, and, where Instagram shows it, each reel's share count, plus how many reels had one.\n\nUse it when share counts matter across a creator's reels; profile/reels is the lighter choice when views, likes, and comments are enough.\n\n**Metered: 50–250 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
         "tags": [
           "instagram"
         ],
@@ -9103,7 +9103,7 @@
             "name": "limit",
             "in": "query",
             "required": false,
-            "description": "Return up to this many items in one call (1-50). The endpoint pages the underlying source server-side until it has collected this many (or runs out), and bills per page read. Omit for a single page.",
+            "description": "Return up to this many items in one call (1-50). The endpoint pages server-side until it has collected this many (or runs out), and bills per page read. Omit for a single page.",
             "schema": {
               "type": "integer"
             }
@@ -9181,7 +9181,7 @@
       "get": {
         "operationId": "instagram_profile_posts_full",
         "summary": "Profile › Posts › Full",
-        "description": "Returns a user's recent posts with likes, comments, views, and a per-post share count where the second source exposes one, plus a coverage figure.\n\nUse it when share counts matter across a whole feed; profile/posts is the lighter choice when likes and comments are enough.\n\n**Metered: 50–250 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
+        "description": "Returns a user's recent posts with likes, comments, views, and, where Instagram shows it, each post's share count, plus how many posts had one.\n\nUse it when share counts matter across a whole feed; profile/posts is the lighter choice when likes and comments are enough.\n\n**Metered: 50–250 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
         "tags": [
           "instagram"
         ],
@@ -9218,7 +9218,7 @@
             "name": "limit",
             "in": "query",
             "required": false,
-            "description": "Return up to this many items in one call (1-50). The endpoint pages the underlying source server-side until it has collected this many (or runs out), and bills per page read. Omit for a single page.",
+            "description": "Return up to this many items in one call (1-50). The endpoint pages server-side until it has collected this many (or runs out), and bills per page read. Omit for a single page.",
             "schema": {
               "type": "integer"
             }
@@ -14168,7 +14168,7 @@
       "get": {
         "operationId": "linkedin_profile_interests_companies",
         "summary": "Profile › Interests › Companies",
-        "description": "Returns the companies a LinkedIn member follows, with each company's name, LinkedIn URL, follower count, and logo.\n\nUse it to infer a person's interests and vendor affinities; profile/interests/groups covers the groups they follow.\n\n**50 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
+        "description": "Returns the companies a LinkedIn member follows, with each company's name, LinkedIn URL, follower count, and logo.\n\nUse it to infer a person's interests and the brands they follow; profile/interests/groups covers the groups they follow.\n\n**50 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
         "tags": [
           "linkedin"
         ],
@@ -16661,7 +16661,7 @@
             "name": "from_member",
             "in": "query",
             "required": false,
-            "description": "Filter to posts from one member, by their LinkedIn member urn — the bare `ACoAA…` value published as `author.ext.urn` by /v1/linkedin/profile. A profile URL, a public slug (`williamhgates`) or a `urn:li:fsd_profile:`-prefixed value is rejected, because the source cannot use any of them. Pass this on its own, with no `query`, to walk one member's back catalogue. Provide at least one of: `query`, `from_member`, `from_company`.",
+            "description": "Filter to posts from one member, by their LinkedIn member urn — the bare `ACoAA…` value published as `author.ext.urn` by /v1/linkedin/profile. A profile URL, a public slug (`williamhgates`) or a `urn:li:fsd_profile:`-prefixed value is rejected. Pass this on its own, with no `query`, to walk one member's back catalogue. Provide at least one of: `query`, `from_member`, `from_company`.",
             "schema": {
               "type": "string"
             }
@@ -16734,7 +16734,7 @@
             "name": "limit",
             "in": "query",
             "required": false,
-            "description": "Return up to this many posts in one call, 1 to 200. Repeating the identical call inside the 2-minute cache window is free. Requires `query`. Cannot be combined with `page` or `cursor`: the result always starts at the top and `pagination.next_cursor` is null. `pagination.has_more` says whether more posts were available when the call stopped, and `walk.stopped` says why it stopped (`limit`, `exhausted`, `deadline` or `sources_unavailable`).",
+            "description": "Return up to this many posts in one call, 1 to 200. Requires `query`. Cannot be combined with `page` or `cursor`: the result always starts at the top and `pagination.next_cursor` is null. `pagination.has_more` says whether more posts were available when the call stopped, and `walk.stopped` says why it stopped (`limit`, `exhausted`, `deadline` or `sources_unavailable`).",
             "schema": {
               "type": "integer",
               "minimum": 1,
@@ -17289,7 +17289,7 @@
             "name": "trim",
             "in": "query",
             "required": false,
-            "description": "Set to true for a trimmed down version of the response",
+            "description": "Set to true for a lighter record with fewer fields.",
             "schema": {
               "type": "boolean"
             }
@@ -17427,7 +17427,7 @@
             "name": "trim",
             "in": "query",
             "required": false,
-            "description": "Set to true for a trimmed down version of the response",
+            "description": "Set to true for a lighter record with fewer fields.",
             "schema": {
               "type": "boolean"
             }
@@ -17606,7 +17606,7 @@
             "name": "trim",
             "in": "query",
             "required": false,
-            "description": "Set to true for a trimmed down version of the response",
+            "description": "Set to true for a lighter record with fewer fields.",
             "schema": {
               "type": "boolean"
             }
@@ -17753,7 +17753,7 @@
             "name": "trim",
             "in": "query",
             "required": false,
-            "description": "Set to true for a trimmed down version of the response",
+            "description": "Set to true for a lighter record with fewer fields.",
             "schema": {
               "type": "boolean"
             }
@@ -18870,7 +18870,7 @@
             "name": "trim",
             "in": "query",
             "required": false,
-            "description": "Set to true for a trimmed down version of the response. This also skips the enrichment pass, so `author.avatar_url`, `content.media_urls`, `flags.spoiler`, `post.url` and the `ext.*` fields are omitted along with the rest of the trimmed leaves.",
+            "description": "Set to true for a lighter record with fewer fields. This also skips the enrichment pass, so `author.avatar_url`, `content.media_urls`, `flags.spoiler`, `post.url` and the `ext.*` fields are omitted along with the rest of the trimmed leaves.",
             "schema": {
               "type": "boolean"
             }
@@ -19116,7 +19116,7 @@
             "name": "trim",
             "in": "query",
             "required": false,
-            "description": "Set to true for a trimmed down version of the response. On this endpoint it also skips the second source that widens the page, so a trimmed page is both thinner and usually shorter. Measured 09/09/2026: default 29 rows, `trim=true` 25 rows. It does not drop `author.avatar_url` or `ext.*` — those leaves stay when the first source already carried them. Use it to skip the widening pass, not to strip fields.",
+            "description": "Set to true for a lighter record with fewer fields. On this endpoint it also skips the extra pass that widens the page, so a trimmed page is usually a few rows shorter. It does not drop `author.avatar_url` or `ext.*` where the first read already carried them. Use it to skip the widening pass, not to strip fields.",
             "schema": {
               "type": "boolean"
             }
@@ -19365,7 +19365,7 @@
             "name": "trim",
             "in": "query",
             "required": false,
-            "description": "Accepted, but not honoured on this endpoint: the source that serves it does not offer a trimmed shape, so the response is the same either way. Kept because removing an accepted parameter would break existing calls.",
+            "description": "Accepted, but not honoured on this endpoint: there is no trimmed shape here, so the response is the same either way. Kept because removing an accepted parameter would break existing calls.",
             "schema": {
               "type": "boolean"
             }
@@ -19458,7 +19458,7 @@
       "get": {
         "operationId": "reddit_subreddit_search",
         "summary": "Subreddit › Search",
-        "description": "Returns posts matching a query inside one subreddit, each with title, score, comment count, and permalink. This source sends no post body, so ext.selftext is null without include_body.\n\nUse it to search one community. Bodies cost extra here, so prefer search with query=subreddit:name plus your terms: bodies for one credit, though it returns a different set of rows.\n\n**Metered: 10–260 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
+        "description": "Returns posts matching a query inside one subreddit, each with title, score, comment count, and permalink. Post bodies are not included, so ext.selftext is null without include_body.\n\nUse it to search one community. Post bodies cost extra here, so for bodies prefer search with query=subreddit:name plus your terms, where bodies come with each row. That returns a different set of rows.\n\n**Metered: 10–260 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
         "tags": [
           "reddit"
         ],
@@ -19978,7 +19978,7 @@
       "get": {
         "operationId": "reddit_search_comments",
         "summary": "Search › Comments",
-        "description": "Returns comments matching a phrase from Reddit's comment index, each with its parent post inline: ext.post_title, ext.subreddit, ext.post_score and ext.post_url.\n\nUse it when the phrase lives in a reply rather than a title, and for author:username or subreddit:name sweeps. parent_id is null: the platform does not report thread position.\n\n**10 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
+        "description": "Returns comments matching a phrase from Reddit's comment index, each with its parent post inline: ext.post_title, ext.subreddit, ext.post_score and ext.post_url.\n\nUse it when the phrase lives in a reply rather than a title, and for author:username or subreddit:name sweeps. parent_id is null: search results do not report thread position.\n\n**10 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
         "tags": [
           "reddit"
         ],
@@ -20104,7 +20104,7 @@
       "get": {
         "operationId": "reddit_subreddits_search",
         "summary": "Subreddits › Search",
-        "description": "Returns up to 25 communities matching a topic, each with the name at author.id, subscriber count, description and icon. include=details adds the creation date, weekly activity, rules and language.\n\nUse it to find which communities discuss a subject. Send include=details instead of one subreddit/details call per community, plus 1 per row filled, 26 at most.\n\n**Metered: 10–260 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
+        "description": "Returns up to 25 communities matching a topic, each with the name at author.id, subscriber count, description and icon. include=details adds the creation date, weekly activity, rules and language.\n\nUse it to find which communities discuss a subject.\n\n**Metered: 10–260 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
         "tags": [
           "reddit"
         ],
@@ -20132,7 +20132,7 @@
             "name": "include",
             "in": "query",
             "required": false,
-            "description": "Set to `details` (one token only) to fill `author.joined_at`, `author.ext.weekly_active_users`, `author.ext.weekly_contributions`, `author.ext.rules_text` and `author.ext.language` on every row in this one call (a row the details lookup's main source cannot answer gets only the creation date and the language, and is still billed).",
+            "description": "Set to `details` (one token only) to fill `author.joined_at`, `author.ext.weekly_active_users`, `author.ext.weekly_contributions`, `author.ext.rules_text` and `author.ext.language` on every row in this one call (a row the details lookup cannot fully answer gets only the creation date and the language, and is still billed).",
             "schema": {
               "type": "string",
               "enum": [
@@ -21905,7 +21905,7 @@
             "name": "trim",
             "in": "query",
             "required": false,
-            "description": "Ask for a stripped record. This is a real shape change, not just less whitespace: a trimmed row carries only the id, text, shortcode, like count, timestamp and author, so media, reply count, share count, view count, topic tag, pinned flag and quoted post all come back null. Ignored when `limit` is above 15, because the deeper source has no trimmed mode.",
+            "description": "Ask for a stripped record. This is a real shape change, not just less whitespace: a trimmed row carries only the id, text, shortcode, like count, timestamp and author, so media, reply count, share count, view count, topic tag, pinned flag and quoted post all come back null. Ignored when `limit` is above 15.",
             "schema": {
               "type": "boolean"
             }
@@ -22294,7 +22294,7 @@
       "get": {
         "operationId": "threads_post_comments",
         "summary": "Post › Comments",
-        "description": "Returns the replies Threads bundles with a post, usually about 20. Send limit above 25 (up to 50) to collect more first-level replies from a second source.\n\nUse it to read the reaction under a post you already have the URL for. It is one window with no cursor. Set limit above 25 when the bundled window is not enough.\n\n**Metered: 10–100 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.",
+        "description": "Returns the replies Threads bundles with a post, usually about 20. Send limit above 25 (up to 50) to collect more first-level replies with an extra lookup.\n\nUse it to read the reaction under a post you already have the URL for. It is one window with no cursor. Set limit above 25 when the bundled window is not enough.\n\n**Metered: 10–100 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.",
         "tags": [
           "threads"
         ],
@@ -22313,7 +22313,7 @@
             "name": "trim",
             "in": "query",
             "required": false,
-            "description": "Ask for a stripped record. This is a real shape change, not just less whitespace: a trimmed row carries only the id, text, shortcode, like count, timestamp and author, so media, reply count, share count, view count, topic tag, pinned flag and quoted post all come back null. Ignored when `limit` is above 25, because the deeper source has no trimmed mode.",
+            "description": "Ask for a stripped record. This is a real shape change, not just less whitespace: a trimmed row carries only the id, text, shortcode, like count, timestamp and author, so media, reply count, share count, view count, topic tag, pinned flag and quoted post all come back null. Ignored when `limit` is above 25.",
             "schema": {
               "type": "boolean"
             }
@@ -22635,7 +22635,7 @@
       "get": {
         "operationId": "tiktok_profile_videos",
         "summary": "Profile › Videos",
-        "description": "Returns a page of an account's recent public videos, each with caption, view, like, comment and share counts, and a thumbnail URL. Handle lookup covers login or age-walled profiles.\n\nUse it to list what one account has posted and page through it. Results come back in the source order, so sort_by does not reorder them. To find videos from many accounts by keyword, use search.\n\n**10 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
+        "description": "Returns a page of an account's recent public videos, each with caption, view, like, comment and share counts, and a thumbnail URL. Handle lookup covers login or age-walled profiles.\n\nUse it to list what one account has posted and page through it. Results come back in TikTok's own order, so sort_by does not reorder them. To find videos from many accounts by keyword, use search.\n\n**10 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
         "tags": [
           "tiktok"
         ],
@@ -22682,7 +22682,7 @@
             "name": "sort_by",
             "in": "query",
             "required": false,
-            "description": "Accepted for compatibility and ignored on this endpoint: neither `latest` nor `popular` reorders the page. Videos come back in the source's own order, described above. To rank a creator's videos by views or likes, page through with `max_cursor` and sort the collected rows yourself.",
+            "description": "Accepted for compatibility and ignored on this endpoint: neither `latest` nor `popular` reorders the page. Videos come back in TikTok's own order. To rank a creator's videos by views or likes, page through with `cursor` and sort the collected rows yourself.",
             "schema": {
               "type": "string",
               "enum": [
@@ -22695,7 +22695,7 @@
             "name": "region",
             "in": "query",
             "required": false,
-            "description": "Region (Country) you want the proxy in. Defaults to US. It does not filter the videos. The country TikTok registers each video to is post.ext.region.",
+            "description": "Two-letter country code that localises the request. Defaults to US. It does not filter the videos. The country TikTok registers each video to is post.ext.region.",
             "schema": {
               "type": "string"
             }
@@ -22816,7 +22816,7 @@
             "name": "region",
             "in": "query",
             "required": false,
-            "description": "Two-letter country code for the proxy region (US, GB, FR, PH). The primary source does not take a region, so it is honoured only when a fallback source serves the request; a region-locked video (commonly from the Philippines) that fails on the primary is retried on the fallback with this value.",
+            "description": "Two-letter country code (US, GB, FR, PH). Used only to retry a region-locked video, commonly one from the Philippines, as seen from that country.",
             "schema": {
               "type": "string"
             }
@@ -23339,7 +23339,7 @@
       "get": {
         "operationId": "tiktok_search",
         "summary": "Search",
-        "description": "Returns TikTok videos matching a keyword, each with caption, view and like counts, author details, a thumbnail, and post.ext.region (the country the video is registered to).\n\nUse it for a video keyword search you can page and sort. region= only sets the proxy; filter on post.ext.region for one country. limit=120 returns one page of up to 120. search/top is the Top tab.\n\n**Metered: 10–370 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
+        "description": "Returns TikTok videos matching a keyword, each with caption, view and like counts, author details, a thumbnail, and post.ext.region (the country the video is registered to).\n\nUse it for a video keyword search you can page and sort. region= localises the request but does not filter; filter on post.ext.region for one country. limit=120 returns one page of up to 120. search/top is the Top tab.\n\n**Metered: 10–370 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
         "tags": [
           "tiktok"
         ],
@@ -23389,7 +23389,7 @@
             "name": "region",
             "in": "query",
             "required": false,
-            "description": "Sets the proxy country (ISO 3166-1 alpha-2). It does not filter the page to that country. Each row already carries post.ext.region, the country the video is registered to; filter on that leaf when you need only one country.",
+            "description": "Two-letter country code (ISO 3166-1 alpha-2) that localises the results. It does not filter the page to that country. Each row already carries post.ext.region, the country the video is registered to; filter on that leaf when you need only one country.",
             "schema": {
               "type": "string",
               "example": "ES"
@@ -23417,7 +23417,7 @@
             "name": "limit",
             "in": "query",
             "required": false,
-            "description": "Bulk labeled page: up to 120 videos in one call, each with post.ext.region. The value rounds up to the next multiple of 30 (30, 60, 90 or 120). The source can repeat a video; repeats are removed, so a 120 page is often a little under 120 unique videos. Omit limit for the default page of about 30, which pages with cursor and carries the same post.ext.region. Does not filter by country; drop rows yourself on post.ext.region.",
+            "description": "Bulk labeled page: up to 120 videos in one call, each with post.ext.region. The value rounds up to the next multiple of 30 (30, 60, 90 or 120). TikTok can repeat a video; repeats are removed, so a 120 page is often a little under 120 unique videos. Omit limit for the default page of about 30, which pages with cursor and carries the same post.ext.region. Does not filter by country; drop rows yourself on post.ext.region.",
             "schema": {
               "type": "integer",
               "minimum": 1,
@@ -23722,7 +23722,7 @@
             "name": "region",
             "in": "query",
             "required": false,
-            "description": "Region the proxy will be set to. Note: this isn't going to grab you all tiktoks from this region, you're just setting the proxy there.",
+            "description": "Two-letter country code that localises the results. It does not filter by country: use `post.ext.region`.",
             "schema": {
               "type": "string"
             }
@@ -23877,7 +23877,7 @@
       "get": {
         "operationId": "tiktok_search_top",
         "summary": "Search › Top",
-        "description": "Returns the videos TikTok ranks highest for a keyword on its Top tab, each with caption, author, engagement counts, a music id, and post.ext.region (the country the video is registered to).\n\nUse it for TikTok's own relevance ranking. region= only sets the proxy; filter on post.ext.region for one country. search/users returns accounts, which this endpoint does not include.\n\n**10 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
+        "description": "Returns the videos TikTok ranks highest for a keyword on its Top tab, each with caption, author, engagement counts, a music id, and post.ext.region (the country the video is registered to).\n\nUse it for TikTok's own relevance ranking. region= localises the request but does not filter; filter on post.ext.region for one country. search/users returns accounts, which this endpoint does not include.\n\n**10 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
         "tags": [
           "tiktok"
         ],
@@ -23927,7 +23927,7 @@
             "name": "region",
             "in": "query",
             "required": false,
-            "description": "Sets the proxy country (ISO 3166-1 alpha-2). It does not filter the page to that country. Each row already carries post.ext.region, the country the video is registered to; filter on that leaf when you need only one country.",
+            "description": "Two-letter country code (ISO 3166-1 alpha-2) that localises the results. It does not filter the page to that country. Each row already carries post.ext.region, the country the video is registered to; filter on that leaf when you need only one country.",
             "schema": {
               "type": "string"
             }
@@ -24400,7 +24400,7 @@
       "get": {
         "operationId": "tiktok_user_audience",
         "summary": "User › Audience",
-        "description": "Returns where a creator's followers are: the top countries in their audience, with sampled follower counts and each country's share.\n\nUse it for audience geography only. Age and gender are not available publicly on TikTok or any other platform.\n\n**50 credits** per call.",
+        "description": "Returns where a creator's followers are: the top countries in their audience, with sampled follower counts and each country's share.\n\nUse it for audience geography only. TikTok does not publish its followers' age or gender.\n\n**50 credits** per call.",
         "tags": [
           "tiktok"
         ],
@@ -24831,7 +24831,7 @@
             "name": "language",
             "in": "query",
             "required": false,
-            "description": "Language of the transcript. 2 letter language code, ie 'en', 'es', 'fr', 'de', 'it', 'ja', 'ko', 'zh'",
+            "description": "Language of the transcript, as a two-letter code such as en, es, fr, de, it, ja, ko or zh.",
             "schema": {
               "type": "string"
             }
@@ -26172,7 +26172,7 @@
       "get": {
         "operationId": "tiktok_playlist_videos",
         "summary": "Playlist › Videos",
-        "description": "Returns the videos inside one of a creator's profile playlists, in playlist order, each with engagement counts, caption, author, and a playable URL.\n\nUse it with a playlist id from profile/playlists. Send the cursor back unchanged, because it is the platform's item index and not a count of the rows you hold.\n\n**10 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
+        "description": "Returns the videos inside one of a creator's profile playlists, in playlist order, each with engagement counts, caption, author, and a playable URL.\n\nUse it with a playlist id from profile/playlists. Send the cursor back unchanged, because it is TikTok's item index and not a count of the rows you hold.\n\n**10 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
         "tags": [
           "tiktok"
         ],
@@ -26452,7 +26452,7 @@
             "name": "region",
             "in": "query",
             "required": false,
-            "description": "Two-letter country code for the proxy location. Defaults to US.",
+            "description": "Two-letter country code that localises the results. Defaults to US.",
             "schema": {
               "type": "string"
             }
@@ -26676,7 +26676,7 @@
             "name": "region",
             "in": "query",
             "required": false,
-            "description": "Two-letter country code for the proxy location. Defaults to US.",
+            "description": "Two-letter country code that localises the results. Defaults to US.",
             "schema": {
               "type": "string"
             }
@@ -26827,7 +26827,7 @@
             "name": "region",
             "in": "query",
             "required": false,
-            "description": "Two-letter country code for the proxy location. Defaults to US.",
+            "description": "Two-letter country code that localises the results. Defaults to US.",
             "schema": {
               "type": "string"
             }
@@ -27935,7 +27935,7 @@
             "name": "region",
             "in": "query",
             "required": false,
-            "description": "Region the lookup is served from. Currently US only (an source limitation; other regions are rejected before billing). Support for more regions is planned source but has no date.",
+            "description": "Region the lookup is served from. US only for now; other regions are rejected before billing.",
             "schema": {
               "type": "string",
               "enum": [
@@ -28235,7 +28235,7 @@
             "name": "user_id",
             "in": "query",
             "required": false,
-            "description": "Truth Social user id. Use this for faster response times. Trumps is 107780257626128497. It is the 'id' field in the profile endpoint. Provide at least one of: `handle`, `user_id`.",
+            "description": "Truth Social user id, the `id` field from /v1/truthsocial/profile. Faster than handle. Provide at least one of: `handle`, `user_id`.",
             "schema": {
               "type": "string"
             }
@@ -28244,7 +28244,7 @@
             "name": "trim",
             "in": "query",
             "required": false,
-            "description": "Set to true for a trimmed down version of the response",
+            "description": "Set to true for a lighter record with fewer fields.",
             "schema": {
               "type": "boolean"
             }
@@ -28620,7 +28620,7 @@
             "name": "filter_by",
             "in": "query",
             "required": false,
-            "description": "Filter the returned videos by type: `HIGHLIGHT` or `UPLOAD`. (Archived past broadcasts are not currently available source.)",
+            "description": "Filter the returned videos by type: `HIGHLIGHT` or `UPLOAD`. Past broadcasts are not available.",
             "schema": {
               "type": "string",
               "enum": [
@@ -28938,7 +28938,7 @@
             "name": "trim",
             "in": "query",
             "required": false,
-            "description": "Accepted for backwards compatibility and ignored. It shrank the raw payload, which the canonical response never exposed, so it changed nothing you can see",
+            "description": "Accepted for backwards compatibility and ignored.",
             "schema": {
               "type": "boolean"
             }
@@ -29050,7 +29050,7 @@
             "name": "trim",
             "in": "query",
             "required": false,
-            "description": "Accepted for backwards compatibility and ignored. It shrank the raw payload, which the canonical response never exposed, so it changed nothing you can see and cost the author details",
+            "description": "Accepted for backwards compatibility and ignored.",
             "schema": {
               "type": "boolean"
             }
@@ -29915,7 +29915,7 @@
       "get": {
         "operationId": "twitter_user_followers",
         "summary": "User › Followers",
-        "description": "Returns the accounts following an X (Twitter) user, each with the handle, display name, bio, follower and tweet counts, privacy flag, and join date.\n\nUse it to sample an account's audience. Page size is set by the source, around 70 accounts, and the cursor pages deeper; verification status is not readable here and returns null.\n\n**10 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
+        "description": "Returns the accounts following an X (Twitter) user, each with the handle, display name, bio, follower and tweet counts, privacy flag, and join date.\n\nUse it to sample an account's audience. Page size is set by X, around 70 accounts, and the cursor pages deeper; verification status is not readable here and returns null.\n\n**10 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
         "tags": [
           "twitter"
         ],
@@ -30009,7 +30009,7 @@
       "get": {
         "operationId": "twitter_user_following",
         "summary": "User › Following",
-        "description": "Returns the accounts an X (Twitter) user follows, each with the handle, display name, bio, follower and tweet counts, privacy flag, and join date.\n\nUse it to map who an account pays attention to. Page size is set by the source and the cursor pages deeper; verification status is not readable here and returns null.\n\n**10 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
+        "description": "Returns the accounts an X (Twitter) user follows, each with the handle, display name, bio, follower and tweet counts, privacy flag, and join date.\n\nUse it to map who an account pays attention to. Page size is set by X and the cursor pages deeper; verification status is not readable here and returns null.\n\n**10 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
         "tags": [
           "twitter"
         ],
@@ -30103,7 +30103,7 @@
       "get": {
         "operationId": "twitter_tweet_retweeters",
         "summary": "Tweet › Retweeters",
-        "description": "Returns the accounts that retweeted a tweet, each with the handle, display name, bio, follower and tweet counts, privacy flag, and join date.\n\nUse it with a tweet URL to see who amplified it. Page size is set by the source and the cursor pages deeper; verification status is not readable here and returns null.\n\n**10 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
+        "description": "Returns the accounts that retweeted a tweet, each with the handle, display name, bio, follower and tweet counts, privacy flag, and join date.\n\nUse it with a tweet URL to see who amplified it. Page size is set by X and the cursor pages deeper; verification status is not readable here and returns null.\n\n**10 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
         "tags": [
           "twitter"
         ],
@@ -32040,7 +32040,7 @@
             "name": "exact_dates",
             "in": "query",
             "required": false,
-            "description": "Exact publish dates are on by default and free. Set to `false` to skip the lookup: rows then carry the supplier's date estimate (a day-granular or coarser label truncated to midnight UTC), marked by `post.ext.published_precision` and `post.ext.published_label`, and the listing title, marked by `post.ext.title_maybe_translated`.",
+            "description": "Exact publish dates are on by default and free. Set to `false` to skip the lookup: rows then carry YouTube's own date estimate (a day-granular or coarser label truncated to midnight UTC), marked by `post.ext.published_precision` and `post.ext.published_label`, and the listing title, marked by `post.ext.title_maybe_translated`.",
             "schema": {
               "type": "string",
               "enum": [
@@ -32159,7 +32159,7 @@
             "name": "language",
             "in": "query",
             "required": false,
-            "description": "Preferred response language (mapped to Accept-Language header; not guaranteed due to YouTube localization behavior). 2 letter language code, ie 'en', 'es', 'fr' etc.",
+            "description": "Preferred response language (mapped to Accept-Language header; not guaranteed due to YouTube localization behavior). Two-letter language code, such as en, es or fr.",
             "schema": {
               "type": "string"
             }
@@ -32262,7 +32262,7 @@
             "name": "language",
             "in": "query",
             "required": false,
-            "description": "2 letter language code used for transcript lookup, ie 'en', 'es', 'fr' etc.",
+            "description": "Two-letter language code used for the transcript lookup, such as en, es or fr.",
             "schema": {
               "type": "string"
             }
@@ -32676,7 +32676,7 @@
             "name": "type",
             "in": "query",
             "required": false,
-            "description": "Type of content to return. NOTE on Shorts results (`type=shorts`, and the Shorts an untyped search mixes in): the Shorts shelf item carries NO channel object source (0 of 98 items across 3 keywords on 10/08/2026, 25 of 25 without one on 26/09/2026, raw source; `includeExtras=true` does not add it). By default the free per-video lookup that supplies the exact date also fills `author.id` and `post.author.display_name` on those rows, at no extra credit. `post.author.username` (the @handle) and `post.author.avatar_url` stay null on them: send `include=engagement,channel` to fill both and the subscriber count. With `exact_dates=false` no lookup runs and the whole author stays null on Shorts. Video results are unaffected (20/20 carry the full author). `/v1/youtube/search/advanced` also carries `channel_id` on every result, though it has no Shorts filter.",
+            "description": "Type of content to return. NOTE on Shorts results (`type=shorts`, and the Shorts an untyped search mixes in): the Shorts shelf item carries no channel object (`includeExtras=true` does not add it). By default the free per-video lookup that supplies the exact date also fills `author.id` and `post.author.display_name` on those rows, at no extra credit. `post.author.username` (the @handle) and `post.author.avatar_url` stay null on them: send `include=engagement,channel` to fill both and the subscriber count. With `exact_dates=false` no lookup runs and the whole author stays null on Shorts. Video results are unaffected (20/20 carry the full author). `/v1/youtube/search/advanced` also carries `channel_id` on every result, though it has no Shorts filter.",
             "schema": {
               "type": "string",
               "enum": [
@@ -32706,7 +32706,7 @@
             "name": "region",
             "in": "query",
             "required": false,
-            "description": "2-letter country code of the country to put the proxy in.",
+            "description": "Two-letter country code that localises the results, such as US or GB.",
             "schema": {
               "type": "string"
             }
@@ -32733,7 +32733,7 @@
             "name": "exact_dates",
             "in": "query",
             "required": false,
-            "description": "Exact publish dates are on by default and free. Set to `false` to skip the lookup: rows then carry the supplier's date estimate (a day-granular or coarser label truncated to midnight UTC), marked by `post.ext.published_precision` and `post.ext.published_label`, and the listing title, marked by `post.ext.title_maybe_translated`.",
+            "description": "Exact publish dates are on by default and free. Set to `false` to skip the lookup: rows then carry YouTube's own date estimate (a day-granular or coarser label truncated to midnight UTC), marked by `post.ext.published_precision` and `post.ext.published_label`, and the listing title, marked by `post.ext.title_maybe_translated`.",
             "schema": {
               "type": "string",
               "enum": [
@@ -33143,7 +33143,7 @@
       "get": {
         "operationId": "youtube_playlist",
         "summary": "Playlist",
-        "description": "Returns the videos in a playlist in playlist order: video id, title, thumbnail, channel and publish date. include=engagement adds views, likes, comments and duration.\n\nUse it when you have a playlist id. Same rows as playlist/items from the same source; this lane has a second source behind it, so prefer it when availability matters.\n\n**Metered: 10–110 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
+        "description": "Returns the videos in a playlist in playlist order: video id, title, thumbnail, channel and publish date. include=engagement adds views, likes, comments and duration.\n\nUse it when you have a playlist id. Same rows as playlist/items, and the more reliable of the two when availability matters.\n\n**Metered: 10–110 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
         "tags": [
           "youtube"
         ],
@@ -33317,7 +33317,7 @@
             "name": "exact_dates",
             "in": "query",
             "required": false,
-            "description": "Exact publish dates are on by default and free. Set to `false` to skip the lookup: rows then carry the supplier's date estimate (a day-granular or coarser label truncated to midnight UTC), marked by `post.ext.published_precision` and `post.ext.published_label`, and the listing title, marked by `post.ext.title_maybe_translated`.",
+            "description": "Exact publish dates are on by default and free. Set to `false` to skip the lookup: rows then carry YouTube's own date estimate (a day-granular or coarser label truncated to midnight UTC), marked by `post.ext.published_precision` and `post.ext.published_label`, and the listing title, marked by `post.ext.title_maybe_translated`.",
             "schema": {
               "type": "string",
               "enum": [
@@ -33597,7 +33597,7 @@
             "name": "language",
             "in": "query",
             "required": false,
-            "description": "2 letter language code, ie 'en', 'es', 'fr' etc. If no caption track matches the language you specify, the request returns 404 RESOURCE_NOT_FOUND (reason `no_captions`).",
+            "description": "Two-letter language code, such as en, es or fr. If no caption track matches the language you specify, the request returns 404 RESOURCE_NOT_FOUND (reason `no_captions`).",
             "schema": {
               "type": "string"
             }
@@ -33830,7 +33830,7 @@
             "name": "exact_dates",
             "in": "query",
             "required": false,
-            "description": "Exact publish dates are on by default and free. Set to `false` to skip the lookup: rows then carry the supplier's date estimate (a day-granular or coarser label truncated to midnight UTC), marked by `post.ext.published_precision` and `post.ext.published_label`, and the listing title, marked by `post.ext.title_maybe_translated`.",
+            "description": "Exact publish dates are on by default and free. Set to `false` to skip the lookup: rows then carry YouTube's own date estimate (a day-granular or coarser label truncated to midnight UTC), marked by `post.ext.published_precision` and `post.ext.published_label`, and the listing title, marked by `post.ext.title_maybe_translated`.",
             "schema": {
               "type": "string",
               "enum": [
@@ -34215,7 +34215,7 @@
       "get": {
         "operationId": "youtube_playlist_items",
         "summary": "Playlist › Items",
-        "description": "Returns the videos of a playlist in playlist order, each with video id, title, thumbnail, the video's own channel, its publish date, and its position and insertion time on post.ext.\n\nUse it when you have a playlist id; add include=engagement for counts and durations. Same rows as playlist, which has a second source behind it.\n\n**Metered: 10–110 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
+        "description": "Returns the videos of a playlist in playlist order, each with video id, title, thumbnail, the video's own channel, its publish date, and its position and insertion time on post.ext.\n\nUse it when you have a playlist id; add include=engagement for counts and durations. Same rows as playlist, which is the more reliable of the two.\n\n**Metered: 10–110 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
         "tags": [
           "youtube"
         ],
@@ -34458,7 +34458,7 @@
             "name": "max_results",
             "in": "query",
             "required": false,
-            "description": "Maximum number of videos to return (1-50). Honored exactly: a page of 50 returns 50 (live-verified).",
+            "description": "Maximum number of videos to return (1-50). Honored exactly: a page of 50 returns 50.",
             "schema": {
               "type": "integer"
             }
