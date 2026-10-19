@@ -35979,6 +35979,9 @@
               },
               "param": {
                 "type": "string"
+              },
+              "top_up_url": {
+                "type": "string"
               }
             },
             "required": [
@@ -37212,7 +37215,8 @@
               "success": false,
               "error": {
                 "type": "INSUFFICIENT_CREDITS",
-                "message": "This call needs up to 340 credits and 120 remain. Top up at https://www.insightsocial.app/pricing"
+                "message": "This call needs up to 340 credits and 120 remain. Add credits: https://www.insightsocial.app/api/top-up?need=220&u=6f1c2b7e-0d4a-4c8e-9b21-3a5f7d9e1c40&via=api_402",
+                "top_up_url": "https://www.insightsocial.app/api/top-up?need=220&u=6f1c2b7e-0d4a-4c8e-9b21-3a5f7d9e1c40&via=api_402"
               },
               "request_id": "req_1a2b3c4d5e6f",
               "credits_used": 0,
