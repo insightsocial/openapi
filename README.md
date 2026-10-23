@@ -1,9 +1,9 @@
 # InsightSocial OpenAPI spec
 
 The OpenAPI 3.1 spec for the [InsightSocial API](https://www.insightsocial.app/docs):
-300+ GET endpoints for public data from 25 platforms (Instagram, TikTok, Facebook, LinkedIn,
-X/Twitter, Threads, YouTube, Reddit, Pinterest, Bluesky, Telegram, Twitch and more), behind one
-`x-api-key` header and one credit balance.
+230+ GET endpoints for public data from 22 platforms (TikTok, LinkedIn, X/Twitter, YouTube,
+Reddit, Pinterest, Bluesky, Telegram, Twitch and more), behind one `x-api-key` header and one
+credit balance.
 
 - **File:** [`openapi.json`](openapi.json)
 - **Live copy:** `https://api.insightsocial.app/v1/openapi.json` (free, no key)
