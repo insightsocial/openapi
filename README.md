@@ -1,9 +1,9 @@
 # InsightSocial OpenAPI spec
 
 The OpenAPI 3.1 spec for the [InsightSocial API](https://www.insightsocial.app/docs):
-230+ GET endpoints for public data from 22 platforms (TikTok, LinkedIn, X/Twitter, YouTube,
-Reddit, Pinterest, Bluesky, Telegram, Twitch and more), behind one `x-api-key` header and one
-credit balance.
+937 GET endpoints for public data from 61 platforms (TikTok, LinkedIn, X/Twitter, YouTube,
+Reddit, Pinterest, Bluesky, Telegram, Twitch, GitHub, Wikipedia, Steam, Spotify, Yahoo Finance
+and more), behind one `x-api-key` header and one credit balance.
 
 - **File:** [`openapi.json`](openapi.json)
 - **Live copy:** `https://api.insightsocial.app/v1/openapi.json` (free, no key)
@@ -12,6 +12,11 @@ credit balance.
 - **Schema 2:** the spec describes schema 2 (`info.version` `2.0.0`), the only response shape
   since 2026-10-04: one typed shape per entity (post, profile, comment, transcript) on every
   platform. See [Schema 2](https://www.insightsocial.app/docs/schema-2).
+- **Beta endpoints:** an operation with `"x-stability": "beta"` returns `ConventionsData`
+  instead of a typed entity: the source's own structure with snake_case keys, string ids and
+  ISO 8601 times, whose fields may change. Most endpoints are beta, including every endpoint on
+  the platforms added in November 2026. See
+  [Beta endpoints](https://www.insightsocial.app/docs/schema/conventions).
 
 ## Use it
 
