@@ -193,7 +193,7 @@
             "name": "app_id",
             "in": "query",
             "required": true,
-            "description": "App Store app id (digits, e.g. `324684580`) or bundle id (e.g. `com.spotify.client`). An id with the `id` prefix used in App Store links (`id284882215`) is also accepted.",
+            "description": "App Store app id (digits, e.g. `324684580`) or bundle id (e.g. `com.spotify.client`). An id with the `id` prefix used in App Store links (`id324684580`) is also accepted.",
             "schema": {
               "type": "string"
             }
@@ -295,7 +295,7 @@
             "name": "app_id",
             "in": "query",
             "required": true,
-            "description": "Numeric App Store app id, e.g. `324684580`. An id with the `id` prefix used in App Store links (`id284882215`) is also accepted.",
+            "description": "Numeric App Store app id, e.g. `324684580`. An id with the `id` prefix used in App Store links (`id324684580`) is also accepted.",
             "schema": {
               "type": "string"
             }
@@ -388,7 +388,7 @@
             "name": "app_id",
             "in": "query",
             "required": true,
-            "description": "Numeric App Store app id, e.g. `324684580`. An id with the `id` prefix used in App Store links (`id284882215`) is also accepted.",
+            "description": "Numeric App Store app id, e.g. `324684580`. An id with the `id` prefix used in App Store links (`id324684580`) is also accepted.",
             "schema": {
               "type": "string"
             }
@@ -490,7 +490,7 @@
             "name": "app_id",
             "in": "query",
             "required": true,
-            "description": "Numeric App Store app id, e.g. `324684580`. An id with the `id` prefix used in App Store links (`id284882215`) is also accepted.",
+            "description": "Numeric App Store app id, e.g. `324684580`. An id with the `id` prefix used in App Store links (`id324684580`) is also accepted.",
             "schema": {
               "type": "string"
             }
@@ -979,7 +979,7 @@
             "name": "developer_id",
             "in": "query",
             "required": true,
-            "description": "App Store developer id, e.g. `284882218` for Meta Platforms. It is the `developer.id` on every app.",
+            "description": "App Store developer id, e.g. `284417353` for Apple. It is the `developer.id` on every app.",
             "schema": {
               "type": "string"
             }
@@ -9786,7 +9786,7 @@
             "name": "include",
             "in": "query",
             "required": false,
-            "description": "`articles` adds a page of the trend's posts (`page` and `limit` apply to them).",
+            "description": "`articles` adds a page of the trend's posts (`cursor` and `limit` apply to them).",
             "schema": {
               "type": "string",
               "enum": [
@@ -12968,7 +12968,7 @@
             "name": "categories",
             "in": "query",
             "required": false,
-            "description": "Categories, comma-separated (`branding,website design`) or repeated: logo design, branding, landing page, website design, mobile app, ui ux design, illustration, animation, icons, social media, presentation, print.",
+            "description": "Categories, comma-separated (`branding,website design`): logo design, branding, landing page, website design, mobile app, ui ux design, illustration, animation, icons, social media, presentation, print.",
             "schema": {
               "type": "array",
               "items": {
@@ -12980,7 +12980,7 @@
             "name": "project_scope",
             "in": "query",
             "required": false,
-            "description": "Design-only or development-required work: `projectScope=design_only` or `projectScope=dev_required`, e.g. `projectScope=design_only`.",
+            "description": "Design-only or development-required work: `project_scope=design_only` or `project_scope=dev_required`, e.g. `project_scope=design_only`.",
             "schema": {
               "type": "string",
               "enum": [
@@ -12993,7 +12993,7 @@
             "name": "timeline",
             "in": "query",
             "required": false,
-            "description": "Timeline values, comma-separated or repeated: `timeline=few_days`, `timeline=few_weeks`, `timeline=month_or_more` or `timeline=unsure`, e.g. `timeline=few_weeks`.",
+            "description": "Timeline values, comma-separated: `timeline=few_days`, `timeline=few_weeks`, `timeline=month_or_more` or `timeline=unsure`, e.g. `timeline=few_weeks`.",
             "schema": {
               "type": "array",
               "items": {
@@ -13005,7 +13005,7 @@
             "name": "client_type",
             "in": "query",
             "required": false,
-            "description": "Client-type values, comma-separated or repeated: `verified`, `promising` or `returning`, e.g. `clientType=verified`. The board does not apply this filter, so all client types are returned.",
+            "description": "Client-type values, comma-separated: `verified`, `promising` or `returning`, e.g. `client_type=verified`. The board does not apply this filter, so all client types are returned.",
             "schema": {
               "type": "array",
               "items": {
@@ -13101,7 +13101,7 @@
             "name": "category",
             "in": "query",
             "required": false,
-            "description": "Directory category slug (`category`), e.g. `brand-designers`. An unknown slug is answered as a keyword search. A category is one page; `page` above 1 and cursors are refused, so use `query` to page.",
+            "description": "Directory category slug (`category`), e.g. `brand-designers`. An unknown slug is answered as a keyword search. A category is a single page: use `query` for more.",
             "schema": {
               "type": "string"
             }
@@ -13343,7 +13343,7 @@
             "name": "specialty_ids",
             "in": "query",
             "required": false,
-            "description": "Specialty ids, comma-separated (`1,2`) or repeated: 1 Animation, 2 Brand / Graphic Design, 3 Illustration, 4 Leadership, 5 Mobile Design, 6 UI / Visual Design, 7 Product Design, 8 UX Design / Research, 9 Web Design.",
+            "description": "Specialty ids, comma-separated (`1,2`): 1 Animation, 2 Brand / Graphic Design, 3 Illustration, 4 Leadership, 5 Mobile Design, 6 UI / Visual Design, 7 Product Design, 8 UX Design / Research, 9 Web Design.",
             "schema": {
               "type": "array",
               "items": {
@@ -14320,7 +14320,7 @@
             "name": "categories",
             "in": "query",
             "required": false,
-            "description": "Category labels, comma-separated or repeated: Branding, Web Design, Illustration, App & Product Design, Animation & Motion Graphics, Typography, Print Design.",
+            "description": "Category labels, comma-separated: Branding, Web Design, Illustration, App & Product Design, Animation & Motion Graphics, Typography, Print Design.",
             "schema": {
               "type": "array",
               "items": {
@@ -20987,6 +20987,15 @@
             }
           },
           {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "description": "Only articles after this date, `YYYY-MM-DD`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "before",
             "in": "query",
             "required": false,
@@ -21914,7 +21923,7 @@
             "name": "query",
             "in": "query",
             "required": true,
-            "description": "One to five search terms, comma-separated or repeated when a term contains a comma. A topic is `id:` plus a Knowledge Graph id (`id:/m/02vqfm`), as the suggestions endpoint returns it.",
+            "description": "One to five search terms, comma-separated. A topic is `id:` plus a Knowledge Graph id (`id:/m/02vqfm`), as the suggestions endpoint returns it.",
             "schema": {
               "type": "array",
               "items": {
@@ -22078,7 +22087,7 @@
             "name": "query",
             "in": "query",
             "required": true,
-            "description": "One to five search terms, comma-separated or repeated when a term contains a comma. A topic is `id:` plus a Knowledge Graph id (`id:/m/02vqfm`), as the suggestions endpoint returns it.",
+            "description": "One to five search terms, comma-separated. A topic is `id:` plus a Knowledge Graph id (`id:/m/02vqfm`), as the suggestions endpoint returns it.",
             "schema": {
               "type": "array",
               "items": {
@@ -23704,7 +23713,7 @@
             "name": "product_ids",
             "in": "query",
             "required": true,
-            "description": "One to ten product ids, comma-separated or repeated.",
+            "description": "One to ten product ids, comma-separated.",
             "schema": {
               "type": "array",
               "items": {
@@ -23932,7 +23941,7 @@
             "name": "tags",
             "in": "query",
             "required": false,
-            "description": "Tag names, OR-ed. Up to 10.",
+            "description": "Tag names, OR-ed. Up to 10. Separate several `tags` values with commas.",
             "schema": {
               "type": "array",
               "items": {
@@ -23944,7 +23953,7 @@
             "name": "file_types",
             "in": "query",
             "required": false,
-            "description": "File types such as `pdf`, OR-ed. Up to 10.",
+            "description": "File types such as `pdf`, OR-ed. Up to 10. Separate several `file_types` values with commas.",
             "schema": {
               "type": "array",
               "items": {
@@ -23989,7 +23998,7 @@
             "name": "attribute_filters",
             "in": "query",
             "required": false,
-            "description": "Category attribute filters of the form `name:value`, e.g. `product_type:script`. Requires `category`; up to 10.",
+            "description": "Category attribute filters of the form `name:value`, e.g. `product_type:script`. Requires `category`; up to 10. Separate several `attribute_filters` values with commas.",
             "schema": {
               "type": "array",
               "items": {
@@ -24553,7 +24562,7 @@
             "name": "limit",
             "in": "query",
             "required": false,
-            "description": "Items to hydrate per page (1–50). Default: 30. Prefer this over `pageSize`.",
+            "description": "Items to hydrate per page (1–50). Default: 30.",
             "schema": {
               "type": "integer",
               "minimum": 1,
@@ -24743,7 +24752,7 @@
             "name": "limit",
             "in": "query",
             "required": false,
-            "description": "Job rows per page (1–50). Default: 20. Prefer this over `pageSize`.",
+            "description": "Job rows per page (1–50). Default: 20.",
             "schema": {
               "type": "integer",
               "minimum": 1,
@@ -24970,7 +24979,7 @@
             "name": "limit",
             "in": "query",
             "required": false,
-            "description": "Hits per page. Must be one of 10, 20, 30, 50. Default: 20. Prefer this over `pageSize`.",
+            "description": "Hits per page. Must be one of 10, 20, 30, 50. Default: 20.",
             "schema": {
               "type": "string"
             }
@@ -25506,7 +25515,7 @@
             "name": "limit",
             "in": "query",
             "required": false,
-            "description": "Hits per page (1–50). Default: 20. Prefer this over `pageSize`.",
+            "description": "Hits per page (1–50). Default: 20.",
             "schema": {
               "type": "integer",
               "minimum": 1,
@@ -25703,7 +25712,7 @@
             "name": "limit",
             "in": "query",
             "required": false,
-            "description": "Hits per page (1–50). Default: 20. Prefer this over `pageSize`.",
+            "description": "Hits per page (1–50). Default: 20.",
             "schema": {
               "type": "integer",
               "minimum": 1,
@@ -38180,7 +38189,7 @@
             "name": "url",
             "in": "query",
             "required": true,
-            "description": "The url.",
+            "description": "Full LinkedIn job posting URL. Must include `/jobs/view/`. Separate several `url` values with commas.",
             "schema": {
               "type": "array",
               "items": {
@@ -38907,7 +38916,7 @@
             "name": "url",
             "in": "query",
             "required": true,
-            "description": "The url.",
+            "description": "LinkedIn profile URL, vanity handle, `@handle`, or `in/{handle}` path. Separate several `url` values with commas.",
             "schema": {
               "type": "array",
               "items": {
@@ -55352,6 +55361,15 @@
           "npm"
         ],
         "parameters": [
+          {
+            "name": "after",
+            "in": "query",
+            "required": false,
+            "description": "Inclusive start: the named package is the first row. Leave it out to start at the beginning.",
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "limit",
             "in": "query",
@@ -74952,7 +74970,7 @@
             "name": "content_descriptors",
             "in": "query",
             "required": false,
-            "description": "Only apps with all of these content descriptor ids, e.g. `3` for adult sexual content.",
+            "description": "Only apps with all of these content descriptor ids, e.g. `3` for adult sexual content. Separate several `content_descriptors` values with commas.",
             "schema": {
               "type": "array",
               "items": {
@@ -74964,7 +74982,7 @@
             "name": "exclude_content_descriptors",
             "in": "query",
             "required": false,
-            "description": "Leave out apps with any of these content descriptor ids.",
+            "description": "Leave out apps with any of these content descriptor ids. Separate several `exclude_content_descriptors` values with commas.",
             "schema": {
               "type": "array",
               "items": {
