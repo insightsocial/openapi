@@ -84506,7 +84506,7 @@
       "get": {
         "operationId": "tiktok_ads_top",
         "summary": "Ads › Top",
-        "description": "Returns TikTok's Creative Center leaderboard of top-performing ads for a market and time window, each with click-through rate, board rank, like count, industry, objective, and the ad video.\n\nUse it to find ad creative that actually performed. It is one window with no cursor, so set limit for depth and change country, period, or order_by for a different board.\n\n**Metered: 100–2000 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.",
+        "description": "Returns TikTok's Creative Center leaderboard of top-performing ads for a market and time window, each with click-through rate, board rank, like count, industry, objective, and the ad video.\n\nUse it to find ad creative that actually performed. It is one window with no cursor, so set limit for depth and change country, period, or order_by for a different board.\n\n**Metered: 100–4000 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.",
         "tags": [
           "tiktok"
         ],
@@ -84651,7 +84651,7 @@
             "name": "limit",
             "in": "query",
             "required": false,
-            "description": "How many ads to return, 1-100, default 20. With include=retention, 1-20.",
+            "description": "How many ads to return, 1-100, default 20. When the board holds more ads than `limit`, a call can return a few fewer than you asked for, because TikTok repeats some ads across its pages and each ad comes back once. To know how many ads match, send include=total. With include=retention, 1-20.",
             "schema": {
               "type": "integer",
               "minimum": 1,
@@ -84662,7 +84662,7 @@
             "name": "include",
             "in": "query",
             "required": false,
-            "description": "Send `retention` to add each ad's second-by-second audience retention curve (`ext.ad.retention`) and its points at second 2 and second 6 (`ext.ad.retention_2s`, `ext.ad.retention_6s`).",
+            "description": "Send `retention` to add each ad's second-by-second audience retention curve (`ext.ad.retention`) and its points at second 2 and second 6 (`ext.ad.retention_2s`, `ext.ad.retention_6s`). One token per call.",
             "schema": {
               "type": "string"
             }
@@ -84711,7 +84711,7 @@
         ],
         "x-credits": {
           "min": 100,
-          "max": 2000
+          "max": 4000
         },
         "x-group": "Ads",
         "responses": {
