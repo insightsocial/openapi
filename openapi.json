@@ -29799,6 +29799,138 @@
         "x-stability": "beta"
       }
     },
+    "/v1/google/business/info": {
+      "get": {
+        "operationId": "google_business_info",
+        "summary": "Business › Info",
+        "description": "Returns one Google Business Profile: name, categories, rating and review count, address, phone, website, coordinates, hours, attributes and claimed status.\n\nUse it for the full profile of one business, named by cid or place_id (from search) or by its name and address.\n\n**10 credits** per call.",
+        "tags": [
+          "google"
+        ],
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "description": "Business name + address (e.g. 'Irving Farm New York 645 5th Ave'). Use cid/place_id when known for an exact match. Provide at least one of: `keyword`, `cid`, `place_id`.",
+            "schema": {
+              "type": "string",
+              "example": "Irving Farm New York 645 5th Ave"
+            }
+          },
+          {
+            "name": "cid",
+            "in": "query",
+            "required": false,
+            "description": "Google customer id (cid) of the place: the most reliable identifier. Provide at least one of: `keyword`, `cid`, `place_id`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "place_id",
+            "in": "query",
+            "required": false,
+            "description": "Google place_id of the place. Provide at least one of: `keyword`, `cid`, `place_id`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "location_name",
+            "in": "query",
+            "required": false,
+            "description": "Geographic context as 'City,Region,Country'. Without it, a keyword that looks Polish (a Polish postcode or Polish-only letters) is searched in Poland and every other keyword in 'New York,New York,United States'.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "language_name",
+            "in": "query",
+            "required": false,
+            "description": "Result language (default 'English').",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "max_age_s",
+            "in": "query",
+            "required": false,
+            "description": "The oldest cached copy you accept, in seconds. A copy that old or younger is served, with its age in `age_s` and the `X-Cache-Age` header. Without it a copy up to 900 seconds old is served; this endpoint keeps copies for 3600 seconds, so a value up to 3600 can save a call. A lower value fetches fresh (billed) when the copy is older, and 0 always fetches live, like `Cache-Control: no-cache`.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3600
+            }
+          },
+          {
+            "name": "dry_run",
+            "in": "query",
+            "required": false,
+            "description": "Set to 1 to get the price of this call without making it: data.dry_run carries credits_min and credits_max. Nothing is charged.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1"
+              ]
+            }
+          }
+        ],
+        "x-credits": 10,
+        "x-group": "Business",
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope2"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ConventionsData"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "402": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-stability": "beta"
+      }
+    },
     "/v1/google/ad-library/ads": {
       "get": {
         "operationId": "google_ad_library_ads",
@@ -29832,6 +29964,177 @@
         ],
         "x-credits": 40,
         "x-group": "Ad library",
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope2"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ConventionsData"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "402": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-stability": "beta"
+      }
+    },
+    "/v1/google/business/extended-reviews": {
+      "get": {
+        "operationId": "google_business_extended_reviews",
+        "summary": "Business › Extended Reviews",
+        "description": "Returns the reviews of one business from Google and the other sites Google shows beside them, up to 1,000, with rating, text, date and source.\n\nUse it when you want a place's reviews from every site Google gathers, not just Google Maps.\n\n**Metered: 50–90 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.",
+        "tags": [
+          "google"
+        ],
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "description": "Business name + address. Use cid/place_id for an exact match. Provide at least one of: `keyword`, `cid`, `place_id`.",
+            "schema": {
+              "type": "string",
+              "example": "Irving Farm New York 645 5th Ave"
+            }
+          },
+          {
+            "name": "cid",
+            "in": "query",
+            "required": false,
+            "description": "Google customer id (cid) of the place. Provide at least one of: `keyword`, `cid`, `place_id`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "place_id",
+            "in": "query",
+            "required": false,
+            "description": "Google place_id of the place. Provide at least one of: `keyword`, `cid`, `place_id`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "location_name",
+            "in": "query",
+            "required": false,
+            "description": "Geographic context as 'City,Region,Country'.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "language_name",
+            "in": "query",
+            "required": false,
+            "description": "Result language (default 'English').",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "depth",
+            "in": "query",
+            "required": false,
+            "description": "Number of reviews to return (default 20, step 20, max 1000).",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "reports",
+            "in": "query",
+            "required": false,
+            "description": "Required by label=reports, ignored otherwise. What to look for, in plain words, up to 300 characters, for example reports=the battery drains quickly or reports=배송이 늦음. Every review gains labels.reports.p, the probability that it says so, in any wording or language. Without it label=reports is skipped with the warning label_reports_needs_reports and is not billed.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dry_run",
+            "in": "query",
+            "required": false,
+            "description": "Set to 1 to get the price of this call without making it: data.dry_run carries credits_min and credits_max. Nothing is charged.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1"
+              ]
+            }
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "required": false,
+            "description": "Only rows published on or after this date: YYYY-MM-DD (midnight UTC) or an ISO 8601 timestamp. Rows older than it are left off each page. This list is not in date order, so the walk does not stop at the date: keep following `next_cursor`, and each page costs what a page costs even when every row on it is filtered out. A row with no date is kept.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "required": false,
+            "description": "Only rows published on or before this date: YYYY-MM-DD (that whole UTC day is included) or an ISO 8601 timestamp. Newer rows are left off each page and the walk does not stop, so older pages follow. A row with no date is kept.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "max_age_s",
+            "in": "query",
+            "required": false,
+            "description": "The oldest cached copy you accept, in seconds. A copy that old or younger is served, with its age in `age_s` and the `X-Cache-Age` header. Without it a copy up to 600 seconds old is served; this endpoint keeps copies for 3600 seconds, so a value up to 3600 can save a call. A lower value fetches fresh (billed) when the copy is older, and 0 always fetches live, like `Cache-Control: no-cache`.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3600
+            }
+          }
+        ],
+        "x-credits": {
+          "min": 50,
+          "max": 90
+        },
+        "x-group": "Business",
         "responses": {
           "200": {
             "description": "Success.",
@@ -29925,6 +30228,194 @@
         ],
         "x-credits": 40,
         "x-group": "Ad library",
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope2"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ConventionsData"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "402": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-stability": "beta"
+      }
+    },
+    "/v1/google/business/reviews": {
+      "get": {
+        "operationId": "google_business_reviews",
+        "summary": "Business › Reviews",
+        "description": "Returns up to 1,000 Google Maps reviews of one place, newest first by default: text, star rating, date, likes, photos, the owner's reply and the reviewer, plus aspect ratings for restaurants and hotels.\n\nUse it to read or monitor what customers say about a place. Filter by date (since) or by a word (query); call again with since to get only new reviews.\n\n**Metered: 50–540 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.",
+        "tags": [
+          "google"
+        ],
+        "parameters": [
+          {
+            "name": "place_id",
+            "in": "query",
+            "required": false,
+            "description": "Google place_id of the place (for example ChIJqdNaaBVbwokRLTafYrQlZI8). GET /v1/google/business/search returns it as `place.ext.place_id`. Provide at least one of: `place_id`, `cid`.",
+            "schema": {
+              "type": "string",
+              "example": "ChIJqdNaaBVbwokRLTafYrQlZI8"
+            }
+          },
+          {
+            "name": "cid",
+            "in": "query",
+            "required": false,
+            "description": "Google customer id (cid) of the place, a decimal number. GET /v1/google/business/search returns it as `place.id`. Provide at least one of: `place_id`, `cid`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "depth",
+            "in": "query",
+            "required": false,
+            "description": "How many reviews to return, from 1 to 1,000 (default 100).",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000
+            }
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "description": "Review order: newest (default), relevant, highest or lowest rating.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "newest",
+                "relevant",
+                "highest",
+                "lowest"
+              ]
+            }
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "required": false,
+            "description": "Only reviews published on or after this date, as YYYY-MM-DD or an ISO-8601 timestamp. Pair it with sort=newest to pull just the reviews added since your last call.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "query",
+            "in": "query",
+            "required": false,
+            "description": "Only reviews whose text contains this word or phrase (for example 'crust' or 'parking').",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "required": false,
+            "description": "Two-letter language code reviews are translated into (default 'en'). A review written in this language is returned as written.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "topic",
+            "in": "query",
+            "required": false,
+            "description": "Only the reviews about one topic: an id from data.topics (topics=true). Up to 30 reviews (depth defaults to 30 and is at most 30), in Google's order for the topic, so sort and since do not combine with it.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "topics",
+            "in": "query",
+            "required": false,
+            "description": "When true, the page also carries the place's review topics in data.topics, as Google lists them: each with its id (send it back as `topic`), its keyword (for example 'long lines') and how many reviews mention it. depth is at most 100 with topics=true, and since does not combine with it. Default false.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "reports",
+            "in": "query",
+            "required": false,
+            "description": "Required by label=reports, ignored otherwise. What to look for, in plain words, up to 300 characters, for example reports=the battery drains quickly or reports=배송이 늦음. Every review gains labels.reports.p, the probability that it says so, in any wording or language. Without it label=reports is skipped with the warning label_reports_needs_reports and is not billed.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dry_run",
+            "in": "query",
+            "required": false,
+            "description": "Set to 1 to get the price of this call without making it: data.dry_run carries credits_min and credits_max. Nothing is charged.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1"
+              ]
+            }
+          },
+          {
+            "name": "max_age_s",
+            "in": "query",
+            "required": false,
+            "description": "The oldest cached copy you accept, in seconds. A copy that old or younger is served, with its age in `age_s` and the `X-Cache-Age` header. Without it a copy up to 600 seconds old is served; this endpoint keeps copies for 3600 seconds, so a value up to 3600 can save a call. A lower value fetches fresh (billed) when the copy is older, and 0 always fetches live, like `Cache-Control: no-cache`.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3600
+            }
+          }
+        ],
+        "x-credits": {
+          "min": 50,
+          "max": 540
+        },
+        "x-group": "Business",
         "responses": {
           "200": {
             "description": "Success.",
@@ -30097,6 +30588,1046 @@
         ],
         "x-credits": 320,
         "x-group": "Ad library",
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope2"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ConventionsData"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "402": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-stability": "beta"
+      }
+    },
+    "/v1/google/business/menu": {
+      "get": {
+        "operationId": "google_business_menu",
+        "summary": "Business › Menu",
+        "description": "Returns a restaurant's menu from Google Maps, one row per dish, with its section, name, description and price.\n\nUse it to compare dishes and prices across restaurants.\n\n**10 credits** per call.",
+        "tags": [
+          "google"
+        ],
+        "parameters": [
+          {
+            "name": "place_id",
+            "in": "query",
+            "required": true,
+            "description": "Google place_id of the place (for example ChIJqdNaaBVbwokRLTafYrQlZI8). GET /v1/google/business/search returns it as `place.ext.place_id`.",
+            "schema": {
+              "type": "string",
+              "example": "ChIJqdNaaBVbwokRLTafYrQlZI8"
+            }
+          },
+          {
+            "name": "country",
+            "in": "query",
+            "required": false,
+            "description": "Two-letter country for localisation, for example us or fr.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "max_age_s",
+            "in": "query",
+            "required": false,
+            "description": "The oldest cached copy you accept, in seconds. A copy that old or younger is served, with its age in `age_s` and the `X-Cache-Age` header. Without it a copy up to 900 seconds old is served; this endpoint keeps copies for 3600 seconds, so a value up to 3600 can save a call. A lower value fetches fresh (billed) when the copy is older, and 0 always fetches live, like `Cache-Control: no-cache`.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3600
+            }
+          },
+          {
+            "name": "dry_run",
+            "in": "query",
+            "required": false,
+            "description": "Set to 1 to get the price of this call without making it: data.dry_run carries credits_min and credits_max. Nothing is charged.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1"
+              ]
+            }
+          }
+        ],
+        "x-credits": 10,
+        "x-group": "Business",
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope2"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ConventionsData"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "402": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-stability": "beta"
+      }
+    },
+    "/v1/google/business/photos": {
+      "get": {
+        "operationId": "google_business_photos",
+        "summary": "Business › Photos",
+        "description": "Returns a Google Maps place's photos and videos, a page at a time, with image links, who posted them and when.\n\nUse it for a place's pictures: all, the latest, the owner's own, menu or food shots, videos or Street View.\n\n**10 credits** per call.\n\nPaginates by `cursor`: see [Pagination](https://www.insightsocial.app/docs/pagination).",
+        "tags": [
+          "google"
+        ],
+        "parameters": [
+          {
+            "name": "place_id",
+            "in": "query",
+            "required": false,
+            "description": "Google place_id of the place (for example ChIJqdNaaBVbwokRLTafYrQlZI8). GET /v1/google/business/search returns it as `place.ext.place_id`. Provide at least one of: `place_id`, `data_id`.",
+            "schema": {
+              "type": "string",
+              "example": "ChIJqdNaaBVbwokRLTafYrQlZI8"
+            }
+          },
+          {
+            "name": "data_id",
+            "in": "query",
+            "required": false,
+            "description": "The place's Google Maps data id (0x...:0x...), instead of place_id. Provide at least one of: `place_id`, `data_id`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "description": "Which photos: all (default), latest, by_owner (posted by the business), videos, street_view, menu, food_and_drink or vibe.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "all",
+                "latest",
+                "by_owner",
+                "videos",
+                "street_view",
+                "menu",
+                "food_and_drink",
+                "vibe"
+              ],
+              "example": "videos"
+            }
+          },
+          {
+            "name": "cursor",
+            "in": "query",
+            "required": false,
+            "description": "Cursor from the previous page's next_cursor. Omit on page 1.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "country",
+            "in": "query",
+            "required": false,
+            "description": "Two-letter country for localisation, for example us or fr.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "max_pages",
+            "in": "query",
+            "required": false,
+            "description": "1 to 50 (default 1). Walk up to this many pages in one call and return the rows from all of them.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            }
+          },
+          {
+            "name": "max_age_s",
+            "in": "query",
+            "required": false,
+            "description": "The oldest cached copy you accept, in seconds. A copy that old or younger is served, with its age in `age_s` and the `X-Cache-Age` header. Without it a copy up to 600 seconds old is served; this endpoint keeps copies for 3600 seconds, so a value up to 3600 can save a call. A lower value fetches fresh (billed) when the copy is older, and 0 always fetches live, like `Cache-Control: no-cache`.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3600
+            }
+          },
+          {
+            "name": "dry_run",
+            "in": "query",
+            "required": false,
+            "description": "Set to 1 to get the price of this call without making it: data.dry_run carries credits_min and credits_max. Nothing is charged.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1"
+              ]
+            }
+          }
+        ],
+        "x-credits": 10,
+        "x-group": "Business",
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope2"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ConventionsData"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "402": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-stability": "beta"
+      }
+    },
+    "/v1/google/business/popular-times": {
+      "get": {
+        "operationId": "google_business_popular_times",
+        "summary": "Business › Popular Times",
+        "description": "Returns how busy a Google Maps place usually is, hour by hour for each day of the week, and how busy it is right now when Google knows.\n\nUse it to compare foot traffic between places or find their peak hours.\n\n**10 credits** per call.",
+        "tags": [
+          "google"
+        ],
+        "parameters": [
+          {
+            "name": "place_id",
+            "in": "query",
+            "required": true,
+            "description": "Google place_id of the place (for example ChIJqdNaaBVbwokRLTafYrQlZI8). GET /v1/google/business/search returns it as `place.ext.place_id`.",
+            "schema": {
+              "type": "string",
+              "example": "ChIJqdNaaBVbwokRLTafYrQlZI8"
+            }
+          },
+          {
+            "name": "country",
+            "in": "query",
+            "required": false,
+            "description": "Two-letter country for localisation, for example us or fr.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "max_age_s",
+            "in": "query",
+            "required": false,
+            "description": "The oldest cached copy you accept, in seconds. A copy that old or younger is served, with its age in `age_s` and the `X-Cache-Age` header. Without it a copy up to 300 seconds old is served; this endpoint keeps copies for 3600 seconds, so a value up to 3600 can save a call. A lower value fetches fresh (billed) when the copy is older, and 0 always fetches live, like `Cache-Control: no-cache`.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3600
+            }
+          },
+          {
+            "name": "dry_run",
+            "in": "query",
+            "required": false,
+            "description": "Set to 1 to get the price of this call without making it: data.dry_run carries credits_min and credits_max. Nothing is charged.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1"
+              ]
+            }
+          }
+        ],
+        "x-credits": 10,
+        "x-group": "Business",
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope2"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ConventionsData"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "402": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-stability": "beta"
+      }
+    },
+    "/v1/google/business/contributor-reviews": {
+      "get": {
+        "operationId": "google_business_contributor_reviews",
+        "summary": "Business › Contributor Reviews",
+        "description": "Returns the Google Maps reviews one reviewer has written, up to 200, newest first, each with the place, rating, text and date.\n\nUse it to see everything a reviewer has posted, for example to check whether a review looks genuine.\n\n**Metered: 10–50 credits.** We reserve the ceiling when the call starts and charge what it actually used when it finishes.",
+        "tags": [
+          "google"
+        ],
+        "parameters": [
+          {
+            "name": "contributor_id",
+            "in": "query",
+            "required": false,
+            "description": "The reviewer's Google Maps contributor id: the 10 to 32 digits in their profile link (for example 102611939832726470161). Provide at least one of: `contributor_id`, `url`.",
+            "schema": {
+              "type": "string",
+              "example": "102611939832726470161"
+            }
+          },
+          {
+            "name": "url",
+            "in": "query",
+            "required": false,
+            "description": "A Google Maps contributor link, for example https://www.google.com/maps/contrib/102611939832726470161/reviews. The `author.url` of any review on GET /v1/google/business/reviews works. Provide at least one of: `contributor_id`, `url`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "How many reviews to return, from 1 to 200 (default 100), newest first. The price is the same at any limit.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 200,
+              "example": 50
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "required": false,
+            "description": "Language for review labels and place names, for example en or fr (default en).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "country",
+            "in": "query",
+            "required": false,
+            "description": "Two-letter country for localisation, for example us or fr.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "reports",
+            "in": "query",
+            "required": false,
+            "description": "Required by label=reports, ignored otherwise. What to look for, in plain words, up to 300 characters, for example reports=the battery drains quickly or reports=배송이 늦음. Every review gains labels.reports.p, the probability that it says so, in any wording or language. Without it label=reports is skipped with the warning label_reports_needs_reports and is not billed.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "dry_run",
+            "in": "query",
+            "required": false,
+            "description": "Set to 1 to get the price of this call without making it: data.dry_run carries credits_min and credits_max. Nothing is charged.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1"
+              ]
+            }
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "required": false,
+            "description": "Only rows published on or after this date: YYYY-MM-DD (midnight UTC) or an ISO 8601 timestamp. Rows older than it are left off each page. This list is not in date order, so the walk does not stop at the date: keep following `next_cursor`, and each page costs what a page costs even when every row on it is filtered out. A row with no date is kept.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "required": false,
+            "description": "Only rows published on or before this date: YYYY-MM-DD (that whole UTC day is included) or an ISO 8601 timestamp. Newer rows are left off each page and the walk does not stop, so older pages follow. A row with no date is kept.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "max_age_s",
+            "in": "query",
+            "required": false,
+            "description": "The oldest cached copy you accept, in seconds. A copy that old or younger is served, with its age in `age_s` and the `X-Cache-Age` header. Without it a copy up to 600 seconds old is served; this endpoint keeps copies for 3600 seconds, so a value up to 3600 can save a call. A lower value fetches fresh (billed) when the copy is older, and 0 always fetches live, like `Cache-Control: no-cache`.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3600
+            }
+          }
+        ],
+        "x-credits": {
+          "min": 10,
+          "max": 50
+        },
+        "x-group": "Business",
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope2"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/ConventionsData"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "402": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-stability": "beta"
+      }
+    },
+    "/v1/google/business/updates": {
+      "get": {
+        "operationId": "google_business_updates",
+        "summary": "Business › Updates",
+        "description": "Returns the posts (updates) a business published on its Google Business Profile: text, date, images and links.\n\nUse it to follow what a local business announces: offers, events and news.\n\n**10 credits** per call.",
+        "tags": [
+          "google"
+        ],
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "description": "Business name + location (e.g. 'Toyota of Manhattan New York'). Provide at least one of: `keyword`, `cid`.",
+            "schema": {
+              "type": "string",
+              "example": "Toyota of Manhattan New York"
+            }
+          },
+          {
+            "name": "cid",
+            "in": "query",
+            "required": false,
+            "description": "Google customer id (cid) of the business. Provide at least one of: `keyword`, `cid`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "location_name",
+            "in": "query",
+            "required": false,
+            "description": "Geographic context as 'City,Region,Country'.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "language_name",
+            "in": "query",
+            "required": false,
+            "description": "Result language (default 'English').",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "required": false,
+            "description": "Only rows published on or after this date: YYYY-MM-DD (midnight UTC) or an ISO 8601 timestamp. Rows older than it are left off each page. This list is not in date order, so the walk does not stop at the date: keep following `next_cursor`, and each page costs what a page costs even when every row on it is filtered out. A row with no date is kept.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "required": false,
+            "description": "Only rows published on or before this date: YYYY-MM-DD (that whole UTC day is included) or an ISO 8601 timestamp. Newer rows are left off each page and the walk does not stop, so older pages follow. A row with no date is kept.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "max_age_s",
+            "in": "query",
+            "required": false,
+            "description": "The oldest cached copy you accept, in seconds. A copy that old or younger is served, with its age in `age_s` and the `X-Cache-Age` header. Without it a copy up to 600 seconds old is served; this endpoint keeps copies for 3600 seconds, so a value up to 3600 can save a call. A lower value fetches fresh (billed) when the copy is older, and 0 always fetches live, like `Cache-Control: no-cache`.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 3600
+            }
+          },
+          {
+            "name": "dry_run",
+            "in": "query",
+            "required": false,
+            "description": "Set to 1 to get the price of this call without making it: data.dry_run carries credits_min and credits_max. Nothing is charged.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1"
+              ]
+            }
+          }
+        ],
+        "x-credits": 10,
+        "x-group": "Business",
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope2"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/PostPage"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "402": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-stability": "stable"
+      }
+    },
+    "/v1/google/business/questions": {
+      "get": {
+        "operationId": "google_business_questions",
+        "summary": "Business › Questions",
+        "description": "Returns the questions people asked on a Google Business Profile and their answers, with dates and who answered.\n\nUse it to see what customers want to know about a business before they visit.\n\n**50 credits** per call.",
+        "tags": [
+          "google"
+        ],
+        "parameters": [
+          {
+            "name": "keyword",
+            "in": "query",
+            "required": false,
+            "description": "Business name + location (e.g. 'Starbucks Reserve Roastery New York'). Provide at least one of: `keyword`, `cid`, `place_id`.",
+            "schema": {
+              "type": "string",
+              "example": "Starbucks Reserve Roastery New York"
+            }
+          },
+          {
+            "name": "cid",
+            "in": "query",
+            "required": false,
+            "description": "Google customer id (cid) of the business. Provide at least one of: `keyword`, `cid`, `place_id`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "place_id",
+            "in": "query",
+            "required": false,
+            "description": "Google place_id of the business. Provide at least one of: `keyword`, `cid`, `place_id`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "location_name",
+            "in": "query",
+            "required": false,
+            "description": "Geographic context as 'City,Region,Country'.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "language_name",
+            "in": "query",
+            "required": false,
+            "description": "Result language (default 'English').",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "depth",
+            "in": "query",
+            "required": false,
+            "description": "Number of questions to return (default 20).",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "since",
+            "in": "query",
+            "required": false,
+            "description": "Only rows published on or after this date: YYYY-MM-DD (midnight UTC) or an ISO 8601 timestamp. Rows older than it are left off each page. This list is not in date order, so the walk does not stop at the date: keep following `next_cursor`, and each page costs what a page costs even when every row on it is filtered out. A row with no date is kept.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "until",
+            "in": "query",
+            "required": false,
+            "description": "Only rows published on or before this date: YYYY-MM-DD (that whole UTC day is included) or an ISO 8601 timestamp. Newer rows are left off each page and the walk does not stop, so older pages follow. A row with no date is kept.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "max_age_s",
+            "in": "query",
+            "required": false,
+            "description": "The oldest cached copy you accept, in seconds. A copy that old or younger is served, with its age in `age_s` and the `X-Cache-Age` header. Without it a copy up to 300 seconds old is served. A lower value fetches fresh (billed) when the copy is older, and 0 always fetches live, like `Cache-Control: no-cache`.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 300
+            }
+          },
+          {
+            "name": "dry_run",
+            "in": "query",
+            "required": false,
+            "description": "Set to 1 to get the price of this call without making it: data.dry_run carries credits_min and credits_max. Nothing is charged.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1"
+              ]
+            }
+          }
+        ],
+        "x-credits": 50,
+        "x-group": "Business",
+        "responses": {
+          "200": {
+            "description": "Success.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Envelope2"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "data": {
+                          "$ref": "#/components/schemas/CommentPage"
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Error"
+          },
+          "401": {
+            "$ref": "#/components/responses/Error"
+          },
+          "402": {
+            "$ref": "#/components/responses/Error"
+          },
+          "404": {
+            "$ref": "#/components/responses/Error"
+          },
+          "409": {
+            "$ref": "#/components/responses/Error"
+          },
+          "429": {
+            "$ref": "#/components/responses/Error"
+          },
+          "500": {
+            "$ref": "#/components/responses/Error"
+          },
+          "503": {
+            "$ref": "#/components/responses/Error"
+          }
+        },
+        "x-stability": "stable"
+      }
+    },
+    "/v1/google/business/search": {
+      "get": {
+        "operationId": "google_business_search",
+        "summary": "Business › Search",
+        "description": "Returns up to 100 Google Maps businesses for a type of business in a place, in Google's order, each with its name, cid and place_id, categories, rating and review count, address, phone, website, coordinates, hours and claimed status.\n\nUse it to build a local lead list, like dentists in Milan. Google lists at most about 100 per search, so search nearby points (lat, lng, zoom) side by side to cover a city; pass a cid to info or reviews.\n\n**50 credits** per call.",
+        "tags": [
+          "google"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "required": true,
+            "description": "What to look for, as you would type it into Google Maps: a category or trade ('dentista', 'ristorante', 'commercialista') or a business name. Use the local language for local results.",
+            "schema": {
+              "type": "string",
+              "example": "dentista"
+            }
+          },
+          {
+            "name": "location",
+            "in": "query",
+            "required": false,
+            "description": "Where to search: 'City, Country' (e.g. 'Milano, Italy'), a country name or ISO code ('Italy', 'IT'), or a full City,Region,Country name ('Milan,Lombardy,Italy'). Required unless lat and lng are sent. Provide at least one of: `location`, `lat`.",
+            "schema": {
+              "type": "string",
+              "example": "Milano, Italy"
+            }
+          },
+          {
+            "name": "lat",
+            "in": "query",
+            "required": false,
+            "description": "Latitude of the search centre (-90 to 90). Send with lng instead of location. Provide at least one of: `location`, `lat`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lng",
+            "in": "query",
+            "required": false,
+            "description": "Longitude of the search centre (-180 to 180). Send with lat instead of location.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "zoom",
+            "in": "query",
+            "required": false,
+            "description": "Google Maps zoom level around lat/lng, 3 (continent) to 21 (street). Defaults to 14, about a city district. Only with lat/lng.",
+            "schema": {
+              "type": "integer",
+              "minimum": 3,
+              "maximum": 21
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "required": false,
+            "description": "Language code for the results ('it', 'en', 'de'). Defaults to the main language of the country in location ('it' for Italy), or 'en' for coordinates.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "How many places to return, 1-100 (default 20). The price is the same at any limit.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "name": "min_rating",
+            "in": "query",
+            "required": false,
+            "description": "Only places rated at least this, one of Google Maps' steps: 2, 2.5, 3, 3.5, 4 or 4.5.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "open_now",
+            "in": "query",
+            "required": false,
+            "description": "true to keep only places open now (in the place's own time). Not with open_24h or open_on_day.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "open_24h",
+            "in": "query",
+            "required": false,
+            "description": "true to keep only places open 24 hours. Not with open_now or open_on_day.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "open_on_day",
+            "in": "query",
+            "required": false,
+            "description": "Only places open on this day: mon, tue, wed, thu, fri, sat or sun. Add open_at_hour for a time of that day.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "mon",
+                "tue",
+                "wed",
+                "thu",
+                "fri",
+                "sat",
+                "sun"
+              ]
+            }
+          },
+          {
+            "name": "open_at_hour",
+            "in": "query",
+            "required": false,
+            "description": "With open_on_day: only places open at this hour of that day, 0 to 23 (23 is 11 PM).",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 23
+            }
+          },
+          {
+            "name": "max_age_s",
+            "in": "query",
+            "required": false,
+            "description": "The oldest cached copy you accept, in seconds. A copy that old or younger is served, with its age in `age_s` and the `X-Cache-Age` header. Without it a copy up to 120 seconds old is served. A lower value fetches fresh (billed) when the copy is older, and 0 always fetches live, like `Cache-Control: no-cache`.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 120
+            }
+          },
+          {
+            "name": "dry_run",
+            "in": "query",
+            "required": false,
+            "description": "Set to 1 to get the price of this call without making it: data.dry_run carries credits_min and credits_max. Nothing is charged.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "1"
+              ]
+            }
+          }
+        ],
+        "x-credits": 50,
+        "x-group": "Business",
         "responses": {
           "200": {
             "description": "Success.",
